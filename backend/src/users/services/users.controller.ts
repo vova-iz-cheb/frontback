@@ -7,17 +7,20 @@ import {
   Patch,
   Post,
   UseFilters,
+  UseGuards,
 } from '@nestjs/common';
 import { UpdateUserDto, UserDto, UsersService } from '../users.service';
 import { MyFirstExceptionFilter } from 'src/common/filters/my-first.filter';
+import { MyFirstGuard } from 'src/common/guards/my-first.guard';
 
 @Controller('users')
+@UseGuards(MyFirstGuard)
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
   @Get()
   getUsers() {
-    throw new Error('faldfjalks');
+    // throw new Error('faldfjalks');
     return this.usersService.getUsers();
   }
 
