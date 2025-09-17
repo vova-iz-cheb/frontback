@@ -1,9 +1,14 @@
-import { Global, Module } from '@nestjs/common';
-import { PostService } from './posts.service';
+import { Module } from '@nestjs/common';
+import { PostsService } from './posts.service';
+import { PostsController } from './posts.controller';
+import { MongooseModule } from '@nestjs/mongoose';
+import { Post, PostSchema } from './schemas/post.schema';
 
-// @Global()
 @Module({
-  providers: [PostService],
-  exports: [PostService],
+  imports: [
+    MongooseModule.forFeature([{ name: Post.name, schema: PostSchema }]),
+  ],
+  providers: [PostsService],
+  controllers: [PostsController],
 })
-export class PostModule {}
+export class PostsModule {}

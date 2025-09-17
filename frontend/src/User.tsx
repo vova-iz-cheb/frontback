@@ -70,6 +70,7 @@ export const User = () => {
                 isAdmin: (
                   document.querySelector('#userIsAdmin') as HTMLInputElement
                 ).checked,
+                name2: '123',
               }),
             })
               .then((x) => {
@@ -85,7 +86,7 @@ export const User = () => {
         <span>result {createdUser}</span>
       </p>
       <p>
-        4 удалить юзера по ид <input type='number' id='deleteId' />
+        4 удалить юзера по ид <input type='' id='deleteId' />
         <button
           onClick={() => {
             fetch(
