@@ -1,19 +1,24 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, Scope } from '@nestjs/common';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Post } from './schemas/post.schema';
 import { Model } from 'mongoose';
-import { FirstService } from 'src/dynamics/dynamic.module';
+import { FirstService, SecondService } from 'src/dynamics/dynamic.module';
 
 // TODO lean toObject exec
 
-@Injectable()
+@Injectable({
+  scope: Scope.DEFAULT,
+})
 export class PostsService {
   constructor(
     @InjectModel(Post.name) private postModel: Model<Post>,
     private dynamicService: FirstService,
-  ) {}
+    private dynamicService1: SecondService,
+  ) {
+    console.log('===PostsService===');
+  }
 
   findAll() {
     console.log('dynamicService', this.dynamicService.sayHi());

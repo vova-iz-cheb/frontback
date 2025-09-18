@@ -14,7 +14,9 @@ import { UpdatePostDto } from './dto/update-post.dto';
 
 @Controller('posts')
 export class PostsController {
-  constructor(private postsService: PostsService) {}
+  constructor(private postsService: PostsService) {
+    console.log('===PostsController===');
+  }
 
   @Get()
   findAll() {

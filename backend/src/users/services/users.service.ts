@@ -1,19 +1,11 @@
-import {
-  Inject,
-  Injectable,
-  NotFoundException,
-  UseGuards,
-} from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { ConfigService, type ConfigType } from '@nestjs/config';
 import { OmitType, PartialType } from '@nestjs/mapped-types';
 import {
   IsBoolean,
   IsNotEmpty,
-  IsNumber,
   IsNumberString,
-  IsOptional,
   IsString,
-  MaxLength,
   MinLength,
   ValidateIf,
 } from 'class-validator';
@@ -22,7 +14,9 @@ import { symbolValue } from 'src/shared/shared.module';
 import { Helper1 } from 'src/shared/shared.services';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from './user.entity';
+import { User } from '../user.entity';
+import { FirstService, SecondService } from 'src/dynamics/dynamic.module';
+import { UserMessageService } from './users-message.service';
 
 export class UserDto {
   @IsNumberString()
@@ -54,6 +48,9 @@ export class UpdateUserDto extends PartialType(OmitType(UserDto, ['id'])) {
 @Injectable()
 export class UsersService {
   constructor(
+    private usersService: UserMessageService,
+    private dynamicService1: SecondService,
+    private dynamicService: FirstService,
     @InjectRepository(User)
     private usersRepository: Repository<User>,
     private helper1: Helper1,
@@ -70,7 +67,18 @@ export class UsersService {
 
     @Inject(databaseConfig.KEY)
     private dbConfig: ConfigType<typeof databaseConfig>,
-  ) {}
+  ) {
+    console.log('===User Service===');
+  }
+
+  getText() {
+    console.log('>> 1 text from UsersService');
+    this.usersService.getTextToOutside();
+  }
+
+  getTextToOutside() {
+    console.log('>> 2 text from UsersService');
+  }
 
   onModuleInit() {
     console.log(
@@ -111,16 +119,18 @@ export class UsersService {
     return this.usersRepository.findOneBy({ id });
   }
 
-  async getUsers() {
+  getUsers() {
+    this.getText();
+    this.usersService.getText();
     console.log('1', this.helper1.getValue());
     // console.log('12', this.blah.getValue());
     // console.log('123', this.hello.getHello());
     // console.log('configService', this.configService.get('DATABASE_USER'));
     // return this.users;
 
-    const r = await this.usersRepository.find();
-    console.log('r', r);
-    return r;
+    // const r = await this.usersRepository.find();
+    // console.log('r', r);
+    return [];
   }
 
   async createUser(user: UserDto) {

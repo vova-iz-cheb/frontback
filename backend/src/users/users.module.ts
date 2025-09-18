@@ -1,6 +1,6 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { UsersController } from './services/users.controller';
-import { UsersService } from './users.service';
+import { UsersController } from './users.controller';
+import { UsersService } from './services/users.service';
 import { APP_FILTER } from '@nestjs/core';
 import { MyFirstExceptionFilter } from 'src/common/filters/my-first.filter';
 import { UserMessageService } from './services/users-message.service';
@@ -13,9 +13,12 @@ import configuration from 'config/configuration';
 import databaseConfig from 'config/database.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user.entity';
+import { MyDynamicModule, SecondModule } from 'src/dynamics/dynamic.module';
 
 @Module({
   imports: [
+    SecondModule,
+    MyDynamicModule.register({ folder: './config' }),
     TypeOrmModule.forFeature([User]),
     // ConfigModule.forFeature(configuration),
     // ConfigModule.forFeature(databaseConfig),

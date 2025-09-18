@@ -3,16 +3,13 @@ import {
   Controller,
   Delete,
   Get,
+  Header,
   Param,
-  ParseBoolPipe,
   Patch,
   Post,
-  Query,
-  UseFilters,
   UseGuards,
 } from '@nestjs/common';
-import { UpdateUserDto, UserDto, UsersService } from '../users.service';
-import { MyFirstExceptionFilter } from 'src/common/filters/my-first.filter';
+import { UpdateUserDto, UserDto, UsersService } from './services/users.service';
 import { MyFirstGuard } from 'src/common/guards/my-first.guard';
 import { IsNumberString } from 'class-validator';
 class StringId {
@@ -23,11 +20,15 @@ class StringId {
 @Controller('users')
 @UseGuards(MyFirstGuard)
 export class UsersController {
-  constructor(private usersService: UsersService) {}
+  constructor(private usersService: UsersService) {
+    console.log('===UsersController===');
+  }
 
   @Get()
+  // @Header('Cache-Control', 'no-store')
   getUsers() {
     console.log('getUsers');
+    // return [];
     // getUsers(@Query('sort', ParseBoolPipe) sort?: boolean) {
     // throw new Error('faldfjalks');
     // console.log('sort', sort, typeof sort);
