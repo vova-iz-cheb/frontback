@@ -17,8 +17,10 @@ import { MongModule } from './mong/mong.module';
 import { DogsModule } from './dogs/dogs.module';
 import { Dog } from './dogs/entities/dog.entity';
 import { TestModule } from './test/test.module';
+import { PrismaModule } from './prisma-module/prisma.module';
 @Module({
   imports: [
+    PrismaModule,
     DogsModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
