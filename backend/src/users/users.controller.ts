@@ -7,17 +7,21 @@ import {
   Param,
   Patch,
   Post,
+  SetMetadata,
   UseGuards,
 } from '@nestjs/common';
 import { UpdateUserDto, UserDto, UsersService } from './services/users.service';
 import { MyFirstGuard } from 'src/common/guards/my-first.guard';
 import { IsNumberString } from 'class-validator';
+import { Money, Users } from 'src/common/decorators/users.decorator';
 class StringId {
   @IsNumberString()
   id: string;
 }
 
 @Controller('users')
+@Users(['batyaBIG'])
+@Money('big', 'big2')
 @UseGuards(MyFirstGuard)
 export class UsersController {
   constructor(private usersService: UsersService) {
@@ -25,6 +29,8 @@ export class UsersController {
   }
 
   @Get()
+  @Users(['batya'])
+  @SetMetadata('money', ['SO BIG'])
   // @Header('Cache-Control', 'no-store')
   getUsers() {
     console.log('getUsers');

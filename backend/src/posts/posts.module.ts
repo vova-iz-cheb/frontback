@@ -7,10 +7,10 @@ import { MyDynamicModule, SecondModule } from 'src/dynamics/dynamic.module';
 
 @Module({
   imports: [
-    SecondModule,
-    // forwardRef(() => SecondModule),
     MongooseModule.forFeature([{ name: Post.name, schema: PostSchema }]),
     MyDynamicModule.register({ folder: './config' }),
+    forwardRef(() => SecondModule),
+    // SecondModule,
   ],
   providers: [PostsService],
   controllers: [PostsController],

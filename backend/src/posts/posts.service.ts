@@ -14,14 +14,14 @@ import { FirstService, SecondService } from 'src/dynamics/dynamic.module';
 export class PostsService {
   constructor(
     @InjectModel(Post.name) private postModel: Model<Post>,
-    private dynamicService: FirstService,
+    // private dynamicService: FirstService,
     private dynamicService1: SecondService,
   ) {
     console.log('===PostsService===');
   }
 
   findAll() {
-    console.log('dynamicService', this.dynamicService.sayHi());
+    // console.log('dynamicService', this.dynamicService.sayHi());
     return this.postModel.find();
   }
 

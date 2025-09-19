@@ -1,4 +1,13 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import {
+  BeforeApplicationShutdown,
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  OnApplicationBootstrap,
+  OnApplicationShutdown,
+  OnModuleDestroy,
+  OnModuleInit,
+} from '@nestjs/common';
 import { UsersController } from './users.controller';
 import { UsersService } from './services/users.service';
 import { APP_FILTER } from '@nestjs/core';
@@ -34,8 +43,36 @@ import { MyDynamicModule, SecondModule } from 'src/dynamics/dynamic.module';
     // },
   ],
 })
-export class UsersModule implements NestModule {
+export class UsersModule
+  implements
+    NestModule,
+    OnModuleInit,
+    OnModuleDestroy,
+    OnApplicationBootstrap,
+    OnApplicationShutdown,
+    BeforeApplicationShutdown
+{
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(MyMiddleware).forRoutes('users');
+  }
+
+  onModuleInit() {
+    console.log('>>>>> INIT');
+  }
+
+  onModuleDestroy() {
+    console.log('>>>>> Destroy');
+  }
+
+  onApplicationBootstrap() {
+    console.log('>>>>> APP BOOTSTRAP');
+  }
+
+  onApplicationShutdown() {
+    console.log('>>>>> SHUT DOWN');
+  }
+
+  beforeApplicationShutdown(signal?: string) {
+    console.log('>>> BEFORE APP SHUT DOWN');
   }
 }

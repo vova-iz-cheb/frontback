@@ -22,8 +22,18 @@ async function bootstrap() {
 
   app.use(logger);
 
-  // app.useGlobalFilters(new MyFirstExceptionFilter(new UserMessageService()));
+  // app.useGlobalFilters(new MyFirstExceptionFilter());
 
   await app.listen(process.env.PORT ?? 3000);
+
+  // Starts listening for shutdown hooks
+  // app.enableShutdownHooks();
+  // setTimeout(() => {
+  //   console.log('fi');
+  //   app.close().then((x) => {
+  //     console.log('close', x);
+  //   });
+  //   console.log('fi2');
+  // }, 5000);
 }
 bootstrap();

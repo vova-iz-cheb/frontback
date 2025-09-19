@@ -18,8 +18,21 @@ import { DogsModule } from './dogs/dogs.module';
 import { Dog } from './dogs/entities/dog.entity';
 import { TestModule } from './test/test.module';
 import { PrismaModule } from './prisma-module/prisma.module';
+import { RouterModule } from '@nestjs/core';
 @Module({
   imports: [
+    // RouterModule.register([
+    //   {
+    //     path: 'lazy',
+    //     children: [
+    //       {
+    //         path: '/',
+    //         module: () =>
+    //           import('./lazy/lazy.module.js').then((m) => m.MyLazyModule),
+    //       },
+    //     ],
+    //   },
+    // ]),
     PrismaModule,
     DogsModule,
     TypeOrmModule.forRoot({

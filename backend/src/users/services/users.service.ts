@@ -17,6 +17,7 @@ import { Repository } from 'typeorm';
 import { User } from '../user.entity';
 import { FirstService, SecondService } from 'src/dynamics/dynamic.module';
 import { UserMessageService } from './users-message.service';
+import { LazyModuleLoader } from '@nestjs/core';
 
 export class UserDto {
   @IsNumberString()
@@ -48,6 +49,7 @@ export class UpdateUserDto extends PartialType(OmitType(UserDto, ['id'])) {
 @Injectable()
 export class UsersService {
   constructor(
+    private lazyModuleLoader: LazyModuleLoader,
     private usersService: UserMessageService,
     private dynamicService1: SecondService,
     private dynamicService: FirstService,
@@ -119,7 +121,8 @@ export class UsersService {
     return this.usersRepository.findOneBy({ id });
   }
 
-  getUsers() {
+  async getUsers() {
+    // throw new Error();
     this.getText();
     this.usersService.getText();
     console.log('1', this.helper1.getValue());
@@ -127,6 +130,17 @@ export class UsersService {
     // console.log('123', this.hello.getHello());
     // console.log('configService', this.configService.get('DATABASE_USER'));
     // return this.users;
+
+    console.log('1');
+    console.time('load lazy');
+    const { MyLazyModule } = await import('../../lazy/lazy.module.js');
+    const moduleRef = await this.lazyModuleLoader.load(() => MyLazyModule);
+
+    const { MyLazyService } = await import('../../lazy/lazy.service.js');
+    const lazyService = moduleRef.get(MyLazyService);
+    console.log('lazyService', lazyService.findAll());
+    console.timeEnd('load lazy');
+    console.log('11');
 
     // const r = await this.usersRepository.find();
     // console.log('r', r);
